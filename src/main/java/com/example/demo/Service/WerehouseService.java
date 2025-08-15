@@ -142,5 +142,20 @@ public class WerehouseService {
     }
 
     @Transactional
-    public List<WerehouseDto> getWerehousesWith(Long werehouseId) {}
+    public List<WerehouseDto> getWerehousesWithWeigth() {
+        try {
+            List<WerehouseDto> werehouseDtos = new ArrayList<>();
+            List<Werehouse> werehouses = werehouseRepo.findAll();
+
+            for (Werehouse werehouse:werehouses)
+            {
+                werehouseDtos.add(new WerehouseDto(werehouse.getWerehouseId(), werehouse.getWerehouseName(), werehouse.getWeigthLimit(),  werehouse.getVolumeLimit()));
+            }
+
+            return werehouseDtos;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }
