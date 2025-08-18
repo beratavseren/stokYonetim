@@ -70,6 +70,7 @@ public class AdminStockService {
                 Product product = productRepo.findByProductId(productTransactionDto.getProductId());
                 ProductWerehouse productWerehouse = productWerehouseRepo.findProductWerehousesByProductAndWerehouse(product, werehouse);
                 productWerehouse.setQuantity(productWerehouse.getQuantity() + productTransactionDto.getQuantity());
+                productWerehouseRepo.save(productWerehouse);
             }
 
             return true;
@@ -116,6 +117,7 @@ public class AdminStockService {
                 Product product = productRepo.findByProductId(productTransactionDto.getProductId());
                 ProductWerehouse productWerehouse=productWerehouseRepo.findProductWerehousesByProductAndWerehouse(product, werehouse);
                 productWerehouse.setQuantity(productWerehouse.getQuantity()-productTransactionDto.getQuantity());
+                productWerehouseRepo.save(productWerehouse);
             }
 
             return true;
