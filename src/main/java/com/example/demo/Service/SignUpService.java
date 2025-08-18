@@ -35,7 +35,7 @@ public class SignUpService {
         }catch (Exception e)
         {
             System.out.println(e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -50,7 +50,7 @@ public class SignUpService {
         }catch (Exception e)
         {
             System.out.println(e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
     }
 }
