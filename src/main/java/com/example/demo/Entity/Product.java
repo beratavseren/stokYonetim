@@ -5,17 +5,23 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "product")
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
+
     @Column(name = "productName")
     private String productName;
+
     @Column(name = "barcodeNumber")
     private Long barcodeNumber;
+
     @Column(name = "wight")
     private int weight;
+
     @Column(name = "volume")
     private int volume;
+
     @ManyToOne
     private Brand brand;
 
@@ -44,8 +50,7 @@ public class Product {
         this.brand = brand;
     }
 
-    public Product(Long barcodeNumber, String productName, Brand brand)
-    {
+    public Product(Long barcodeNumber, String productName, Brand brand) {
         this.barcodeNumber=barcodeNumber;
         this.productName=productName;
         this.brand=brand;

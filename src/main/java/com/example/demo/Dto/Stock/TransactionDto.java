@@ -1,8 +1,6 @@
 package com.example.demo.Dto.Stock;
 
-import com.example.demo.Dto.Product.ProductDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionDto {
@@ -27,7 +25,11 @@ public class TransactionDto {
         this.werehouseId = werehouseId;
     }
 
-    public List<ProductTransactionDto> getProductTransactionDtos() {return productTransactionDtos;}
+    public List<ProductTransactionDto> getProductTransactionDtos() {
+        return productTransactionDtos;
+    }
 
-    public void setProductTransactionDtos(List<ProductTransactionDto> productTransactionDtos) {this.productTransactionDtos = productTransactionDtos;}
+    public void setProductTransactionDtos(List<ProductTransactionDto> productTransactionDtos) {
+        this.productTransactionDtos = productTransactionDtos;
+    }
 }

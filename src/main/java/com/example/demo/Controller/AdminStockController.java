@@ -26,8 +26,7 @@ public class AdminStockController {
     }
 
     @PutMapping("/out")
-    public boolean sellProduct(TransactionDto transactionDto)
-    {
+    public boolean sellProduct(TransactionDto transactionDto) {
         return adminStockService.outProduct(transactionDto);
     }
 
