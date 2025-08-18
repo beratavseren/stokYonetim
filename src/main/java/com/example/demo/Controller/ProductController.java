@@ -1,9 +1,6 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Dto.Product.AddProductDto;
-import com.example.demo.Dto.Product.DetailedProductDto;
-import com.example.demo.Dto.Product.ProductDto;
-import com.example.demo.Dto.Product.UpdateProductDto;
+import com.example.demo.Dto.Product.*;
 import com.example.demo.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +24,11 @@ public class ProductController {
         return productService.addProduct(addProductDto);
     }
 
+    @PutMapping("/update")
+    public boolean updateProduct(@RequestBody UpdateProductDto updateProductDto)
+    {
+        return productService.updateProduct(updateProductDto);
+    }
 
     @DeleteMapping("/delete")
     public boolean deleteProduct(@RequestAttribute Long productId)
@@ -38,6 +40,12 @@ public class ProductController {
     public List<ProductDto> getProducts()
     {
         return productService.getProducts();
+    }
+
+    @GetMapping("/listProduct")
+    public List<GetProductListForProductPageDto> getProductListForProductPage()
+    {
+        return productService.getProductListForProductPage();
     }
 
     @GetMapping("/getProduct")

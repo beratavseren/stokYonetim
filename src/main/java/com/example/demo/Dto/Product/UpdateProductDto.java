@@ -2,13 +2,13 @@ package com.example.demo.Dto.Product;
 
 public class UpdateProductDto {
     private Long productId;
-    private int weigth;
-    private int volume;
+    private String productName;
+    private String comment;
 
-    public UpdateProductDto(Long productId, int weigth, int volume) {
+    public UpdateProductDto(Long productId, String productName, String comment) {
         this.productId = productId;
-        this.weigth = weigth;
-        this.volume = volume;
+        this.productName = productName;
+        this.comment = comment;
     }
 
     public UpdateProductDto() {
@@ -22,19 +22,19 @@ public class UpdateProductDto {
         this.productId = productId;
     }
 
-    public int getWeigth() {
-        return weigth;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setWeigth(int weigth) {
-        this.weigth = weigth;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public int getVolume() {
-        return volume;
+    public String getComment() {
+        return comment;
     }
 
-    public void setVolume(int volume) {
-        this.volume = volume;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

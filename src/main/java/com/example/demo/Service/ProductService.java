@@ -1,9 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Dto.Brand.BrandDto;
-import com.example.demo.Dto.Product.AddProductDto;
-import com.example.demo.Dto.Product.DetailedProductDto;
-import com.example.demo.Dto.Product.ProductDto;
+import com.example.demo.Dto.Product.*;
 import com.example.demo.Entity.Brand;
 import com.example.demo.Entity.Product;
 import com.example.demo.Entity.ProductWerehouse;
@@ -40,6 +38,7 @@ public class ProductService {
     public boolean addProduct(AddProductDto addProductDto)
     {
         try {
+
             Brand brand = brandRepo.findByBrandId(addProductDto.getBrandDto().getBrandId());
             Product product = new Product(addProductDto.getProductName(), addProductDto.getBarcodeNumber(), addProductDto.getWeigth(), addProductDto.getVolume(), brand);
             product = productRepo.save(product);
@@ -53,27 +52,34 @@ public class ProductService {
             return true;
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
     @Transactional
-    public boolean deleteProduct(Long productId)
+    public boolean deleteProduct(Long productId) throws RuntimeException
     {
         try {
+
             Product product = productRepo.findByProductId(productId);
             List<ProductWerehouse> productWerehouses = productWerehouseRepo.findProductWerehousesByProduct(product);
+
             for (ProductWerehouse productWerehouse : productWerehouses) {
+
                 if (productWerehouse.getQuantity()!=0)
                 {
-                    return false;
+                    throw new RuntimeException("This product exists in a warehouse with quantity. Please empty the product quantity first.");
                 }
+                
+                productWerehouseRepo.delete(productWerehouse);
             }
+            
             productRepo.deleteById(productId);
+            
             return true;
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -92,7 +98,7 @@ public class ProductService {
             return productDtos;
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ArrayList<>();
+            throw new RuntimeException(e);
         }
     }
 
@@ -103,10 +109,19 @@ public class ProductService {
         try {
             Product product = productRepo.findByProductId(productId);
 
-            return new DetailedProductDto(product.getProductId(), product.getProductName(), product.getBarcodeNumber(), product.getWeight(), product.getVolume(), new BrandDto(product.getBrand().getBrandId(), product.getBrand().getBrandName()));
+            List<ProductWerehouse> productWerehouses = productWerehouseRepo.findProductWerehousesByProduct(product);
+
+            List<WerehouseQuantityDtoForDetailedProductDto> werehouseQuantityDtoForDetailedProductDtos = new ArrayList<>();
+
+            for (ProductWerehouse productWerehouse:productWerehouses)
+            {
+                werehouseQuantityDtoForDetailedProductDtos.add(new WerehouseQuantityDtoForDetailedProductDto(productWerehouse.getWerehouse().getWerehouseName(), productWerehouse.getQuantity()));
+            }
+
+            return new DetailedProductDto(product.getProductId(), product.getProductName(), product.getBarcodeNumber(), product.getComment(), product.getWeight(), product.getVolume(), werehouseQuantityDtoForDetailedProductDtos, new BrandDto(product.getBrand().getBrandId(), product.getBrand().getBrandName()));
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            return new DetailedProductDto();
+            throw new RuntimeException(e);
         }
     }
 
@@ -114,12 +129,72 @@ public class ProductService {
     public DetailedProductDto getDetailedProductByBarcodeNumber(Long barcodeNumber)
     {
         try {
+
             Product product = productRepo.findByBarcodeNumber(barcodeNumber);
 
-            return new DetailedProductDto(product.getProductId(), product.getProductName(), product.getBarcodeNumber(), product.getWeight(), product.getVolume(), new BrandDto(product.getBrand().getBrandId(), product.getBrand().getBrandName()));
+            List<ProductWerehouse> productWerehouses = productWerehouseRepo.findProductWerehousesByProduct(product);
+
+            List<WerehouseQuantityDtoForDetailedProductDto> werehouseQuantityDtoForDetailedProductDtos = new ArrayList<>();
+
+            for (ProductWerehouse productWerehouse:productWerehouses)
+            {
+                werehouseQuantityDtoForDetailedProductDtos.add(new WerehouseQuantityDtoForDetailedProductDto(productWerehouse.getWerehouse().getWerehouseName(), productWerehouse.getQuantity()));
+            }
+
+            return new DetailedProductDto(product.getProductId(), product.getProductName(), product.getBarcodeNumber(), product.getComment(), product.getWeight(), product.getVolume(), werehouseQuantityDtoForDetailedProductDtos, new BrandDto(product.getBrand().getBrandId(), product.getBrand().getBrandName()));
+
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            return new DetailedProductDto();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    public List<GetProductListForProductPageDto> getProductListForProductPage(){
+        try {
+            List<GetProductListForProductPageDto> getProductListForProductPageDtos = new ArrayList<>();
+
+            List<Product> products = productRepo.findAll();
+
+            int totalQuantity;
+
+            for (Product product:products)
+            {
+                List<ProductWerehouse> productWerehouses = productWerehouseRepo.findProductWerehousesByProduct(product);
+                totalQuantity=0;
+                for (ProductWerehouse productWerehouse:productWerehouses)
+                {
+                    totalQuantity = productWerehouse.getQuantity()+totalQuantity;
+                }
+
+                getProductListForProductPageDtos.add(new GetProductListForProductPageDto(product.getProductId(), product.getProductName(), totalQuantity,new BrandDto(product.getBrand().getBrandId(), product.getBrand().getBrandName())));
+            }
+
+            return getProductListForProductPageDtos;
+
+        }catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    public boolean updateProduct(UpdateProductDto updateProductDto) throws RuntimeException
+    {
+        try {
+            Product product = productRepo.findByProductId(updateProductDto.getProductId());
+            if (product == null)
+            {
+                throw new RuntimeException("The product you want to update does not exist.");
+            }
+            product.setComment(updateProductDto.getComment());
+            productRepo.save(product);
+            return true;
+        }catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

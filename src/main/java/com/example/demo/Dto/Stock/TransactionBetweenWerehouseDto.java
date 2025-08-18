@@ -34,7 +34,11 @@ public class TransactionBetweenWerehouseDto {
         this.toWerehouseId = toWerehouseId;
     }
 
-    public List<ProductTransactionDto> getProductTransactionDtos() {return productTransactionDtos;}
+    public List<ProductTransactionDto> getProductTransactionDtos() {
+        return productTransactionDtos;
+    }
 
-    public void setProductTransactionDtos(List<ProductTransactionDto> productTransactionDtos) {this.productTransactionDtos = productTransactionDtos;}
+    public void setProductTransactionDtos(List<ProductTransactionDto> productTransactionDtos) {
+        this.productTransactionDtos = productTransactionDtos;
+    }
 }

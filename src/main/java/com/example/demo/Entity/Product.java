@@ -22,8 +22,21 @@ public class Product {
     @Column(name = "volume")
     private int volume;
 
+    @Column(name = "comment")
+    private String comment;
+
     @ManyToOne
     private Brand brand;
+
+    public Product(Long productId, String productName, Long barcodeNumber, int weight, int volume, String comment, Brand brand) {
+        this.productId = productId;
+        this.productName = productName;
+        this.barcodeNumber = barcodeNumber;
+        this.weight = weight;
+        this.volume = volume;
+        this.comment = comment;
+        this.brand = brand;
+    }
 
     public Product(Long productId, String productName, Long barcodeNumber, int weight, int volume, Brand brand) {
         this.productId = productId;
@@ -104,5 +117,13 @@ public class Product {
 
     public void setVolume(int volume) {
         this.volume = volume;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

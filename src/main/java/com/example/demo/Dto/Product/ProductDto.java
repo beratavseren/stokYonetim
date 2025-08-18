@@ -1,6 +1,7 @@
 package com.example.demo.Dto.Product;
 
 public class ProductDto {
+
     private Long productId;
     private String productName;
 

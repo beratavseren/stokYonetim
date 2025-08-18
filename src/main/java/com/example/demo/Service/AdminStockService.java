@@ -6,8 +6,6 @@ import com.example.demo.Dto.Stock.TransactionBetweenWerehouseDto;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
 import jakarta.transaction.Transactional;
-import jakarta.transaction.TransactionalException;
-import org.hibernate.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
