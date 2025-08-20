@@ -1,6 +1,5 @@
 package com.example.demo.Service;
 
-import com.example.demo.Dto.Product.DetailedProductDto;
 import com.example.demo.Dto.Stock.*;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
@@ -163,7 +162,7 @@ public class AdminStockService {
                 productTransactionDtos.add(new ProductTransactionDto(productTransaction.getProduct().getProductId(),productTransaction.getQuantity()));
             }
 
-            return new DetailedTransactionDto();
+            return new DetailedTransactionDto(transaction.getTransactionId(), transaction.getTransactionType(), transaction.getWerehouse().getWerehouseName(), transaction.isSituation(), productTransactionDtos);
 
         }catch (Exception e)
         {
