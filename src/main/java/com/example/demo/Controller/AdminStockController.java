@@ -1,17 +1,20 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Dto.Stock.TransactionDto;
+import com.example.demo.Dto.Stock.AddTransactionDto;
+import com.example.demo.Dto.Stock.DetailedTransactionDto;
 import com.example.demo.Dto.Stock.TransactionBetweenWerehouseDto;
+import com.example.demo.Dto.Stock.TransactionDto;
+import com.example.demo.Entity.TransactionType;
 import com.example.demo.Service.AdminStockService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/stock")
 public class AdminStockController {
+
     AdminStockService adminStockService;
 
     @Autowired
@@ -20,20 +23,36 @@ public class AdminStockController {
         this.adminStockService = adminStockService;
     }
 
-    @PutMapping("/in")
-    public boolean buyProduct(@RequestBody TransactionDto transactionDto)
+    @PostMapping("/in")
+    public boolean buyProduct(@RequestBody AddTransactionDto addTransactionDto)
     {
-        return adminStockService.inProduct(transactionDto);
+        return adminStockService.inProduct(addTransactionDto);
     }
 
-    @PutMapping("/out")
-    public boolean sellProduct(@RequestBody TransactionDto transactionDto) {
-        return adminStockService.outProduct(transactionDto);
+    @PostMapping("/out")
+    public boolean sellProduct(@RequestBody AddTransactionDto addTransactionDto) {
+        return adminStockService.outProduct(addTransactionDto);
     }
 
-    @PutMapping("/betweenWerehouses")
+    @PostMapping("/betweenWerehouses")
     public boolean betweenWerehouses(@RequestBody TransactionBetweenWerehouseDto transactionBetweenWerehouseDto)
     {
         return adminStockService.betweenWerehouses(transactionBetweenWerehouseDto);
+    }
+
+    @GetMapping("/getDetailedTransaction/{transactionId}")
+    public DetailedTransactionDto getDetailedTransaction(@PathVariable Long transactionId)
+    {
+        return adminStockService.getDetailedTransaction(transactionId);
+    }
+
+
+    //Transactionlar için filtreleri belirle
+    @GetMapping("/getTransactionsWithFilter")
+    public List<TransactionDto> getTransactionsWithFilter(@RequestParam(required = false) TransactionType transactionType,
+                                                          @RequestParam(required = false) Long werehouseId,
+                                                          @RequestParam(required = false) Boolean transactionStuation)
+    {
+        return adminStockService.getTransactionsWithFilter(transactionType, werehouseId, transactionStuation);
     }
 }

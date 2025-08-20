@@ -45,7 +45,7 @@ public class WerehouseService {
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -80,7 +80,7 @@ public class WerehouseService {
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -89,11 +89,20 @@ public class WerehouseService {
         try {
             Werehouse werehouse = werehouseRepo.findByWerehouseId(werehouseId);
 
-            return new DetailedWerehouseDto(werehouse.getWerehouseId(), werehouse.getWerehouseName(), werehouse.getWerehouseLocation(), werehouse.getWeigthLimit(), werehouse.getVolumeLimit(), werehouse.getCurrentWeigth(), werehouse.getCurrentVolume());
+            List<ProductWerehouse> productWerehouses = productWerehouseRepo.findProductWerehousesByWerehouse(werehouse);
+            List<ProductQuantityDtoForDetailedWerehouseDto> productQuantityDtoForDetailedWerehouseDtos = new ArrayList<>();
+
+
+            for (ProductWerehouse productWerehouse:productWerehouses)
+            {
+                productQuantityDtoForDetailedWerehouseDtos.add(new ProductQuantityDtoForDetailedWerehouseDto(productWerehouse.getProduct().getProductName(), productWerehouse.getQuantity()));
+            }
+
+            return new DetailedWerehouseDto(werehouse.getWerehouseId(), werehouse.getWerehouseName(), werehouse.getWerehouseLocation(), werehouse.getWeigthLimit(), werehouse.getVolumeLimit(), werehouse.getCurrentWeigth(), werehouse.getCurrentVolume(), productQuantityDtoForDetailedWerehouseDtos);
         }catch (Exception e)
         {
             System.out.println(e.getMessage());
-            return new DetailedWerehouseDto();
+            throw new RuntimeException(e);
         }
     }
 
@@ -110,9 +119,10 @@ public class WerehouseService {
             }
 
             return werehouseDtos;
+
         }catch (Exception e){
             System.out.println(e.getMessage());
-            return new ArrayList<>();
+            throw new RuntimeException(e);
         }
     }
 
@@ -127,7 +137,7 @@ public class WerehouseService {
             {
                 if (productWerehouse.getQuantity()!=0)
                 {
-                    return false;
+                    throw new RuntimeException("This werehouse has some products. Please empty the products first.");
                 }
             }
 
@@ -137,7 +147,7 @@ public class WerehouseService {
             return true;
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -149,7 +159,7 @@ public class WerehouseService {
 
             for (Werehouse werehouse:werehouses)
             {
-                werehouseDtos.add(new WerehouseDto(werehouse.getWerehouseId(), werehouse.getWerehouseName(), werehouse.getWeigthLimit(),  werehouse.getVolumeLimit()));
+                werehouseDtos.add(new WerehouseDto(werehouse.getWerehouseId(), werehouse.getWerehouseName(), werehouse.getWeigthLimit(),  werehouse.getCurrentWeigth()));
             }
 
             return werehouseDtos;

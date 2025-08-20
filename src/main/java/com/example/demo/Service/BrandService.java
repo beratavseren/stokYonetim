@@ -127,7 +127,7 @@ public class BrandService {
         if (brand.isPresent()){
             return new BrandDto(brand.get().getBrandId(), brand.get().getBrandName());
         }else {
-            return new BrandDto();
+            throw new RuntimeException("Brand not found");
         }
     }
 
@@ -138,10 +138,9 @@ public class BrandService {
 
         List<BrandDto> brandDtos = new ArrayList<>();
 
-        while (brands.isEmpty())
+        for (Brand brand:brands)
         {
-            brandDtos.add(new BrandDto(brands.getFirst().getBrandId(),brands.getFirst().getBrandName()));
-            brands.removeFirst();
+            brandDtos.add(new BrandDto(brand.getBrandId(), brand.getBrandName()));
         }
 
         return brandDtos;

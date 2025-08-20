@@ -24,7 +24,6 @@ public class BrandController {
     public boolean addBrand(@RequestBody AddBrandDto addBrandDto)
     {
         return brandService.addBrand(addBrandDto);
-
     }
 
     @PutMapping("/update")
@@ -40,7 +39,7 @@ public class BrandController {
     }
 
     @GetMapping("/getBrand")
-    public BrandDto getBrand(@RequestAttribute Long brandId)
+    public BrandDto getBrand(@RequestParam Long brandId)
     {
         return brandService.getBrand(brandId);
     }

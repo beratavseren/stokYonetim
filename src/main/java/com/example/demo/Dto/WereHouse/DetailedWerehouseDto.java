@@ -1,5 +1,7 @@
 package com.example.demo.Dto.WereHouse;
 
+import java.util.List;
+
 public class DetailedWerehouseDto {
     private Long werehouseId;
     private String werehouseName;
@@ -8,8 +10,9 @@ public class DetailedWerehouseDto {
     private Double volumeLimit;
     private Double currentWeigth;
     private Double currentVolume;
+    private List<ProductQuantityDtoForDetailedWerehouseDto> productQuantityDtoForDetailedWerehouseDtos;
 
-    public DetailedWerehouseDto(Long werehouseId, String werehouseName, String werehouseLocation, Double weigthLimit, Double volumeLimit, Double currentWeigth, Double currentVolume) {
+    public DetailedWerehouseDto(Long werehouseId, String werehouseName, String werehouseLocation, Double weigthLimit, Double volumeLimit, Double currentWeigth, Double currentVolume, List<ProductQuantityDtoForDetailedWerehouseDto> productQuantityDtoForDetailedWerehouseDto) {
         this.werehouseId = werehouseId;
         this.werehouseName = werehouseName;
         this.werehouseLocation = werehouseLocation;
@@ -17,6 +20,7 @@ public class DetailedWerehouseDto {
         this.volumeLimit = volumeLimit;
         this.currentWeigth = currentWeigth;
         this.currentVolume = currentVolume;
+        this.productQuantityDtoForDetailedWerehouseDtos=productQuantityDtoForDetailedWerehouseDto;
     }
 
     public DetailedWerehouseDto() {
@@ -76,5 +80,13 @@ public class DetailedWerehouseDto {
 
     public void setCurrentVolume(Double currentVolume) {
         this.currentVolume = currentVolume;
+    }
+
+    public List<ProductQuantityDtoForDetailedWerehouseDto> getProductQuantityDtoForDetailedWerehouseDtos() {
+        return productQuantityDtoForDetailedWerehouseDtos;
+    }
+
+    public void setProductQuantityDtoForDetailedWerehouseDtos(List<ProductQuantityDtoForDetailedWerehouseDto> productQuantityDtoForDetailedWerehouseDtos) {
+        this.productQuantityDtoForDetailedWerehouseDtos = productQuantityDtoForDetailedWerehouseDtos;
     }
 }

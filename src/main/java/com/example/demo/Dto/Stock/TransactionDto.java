@@ -1,35 +1,43 @@
 package com.example.demo.Dto.Stock;
 
-
-import java.util.List;
+import com.example.demo.Entity.TransactionType;
 
 public class TransactionDto {
 
-    private Long werehouseId;
-    private List<ProductTransactionDto> productTransactionDtos;
+    private Long transactionId;
+    private TransactionType transactionType;
+    private String werehouseName;
 
-    public TransactionDto(Long werehouseId, List<ProductTransactionDto> productTransactionDtos) {
-        this.werehouseId = werehouseId;
-        this.productTransactionDtos = productTransactionDtos;
+    public TransactionDto(Long transactionId, TransactionType transactionType, String werehouseName) {
+        this.transactionId = transactionId;
+        this.transactionType = transactionType;
+        this.werehouseName = werehouseName;
     }
 
     public TransactionDto() {
     }
 
-
-    public Long getWerehouseId() {
-        return werehouseId;
+    public Long getTransactionId() {
+        return transactionId;
     }
 
-    public void setWerehouseId(Long werehouseId) {
-        this.werehouseId = werehouseId;
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
-    public List<ProductTransactionDto> getProductTransactionDtos() {
-        return productTransactionDtos;
+    public TransactionType getTransactionType() {
+        return transactionType;
     }
 
-    public void setProductTransactionDtos(List<ProductTransactionDto> productTransactionDtos) {
-        this.productTransactionDtos = productTransactionDtos;
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public String getWerehouseName() {
+        return werehouseName;
+    }
+
+    public void setWerehouseName(String werehouseName) {
+        this.werehouseName = werehouseName;
     }
 }

@@ -12,14 +12,39 @@ public class Transaction {
     @ManyToOne
     private Werehouse werehouse;
 
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
+
+    @Column(name = "stuation")
+    private Boolean situation;
+
+    public Transaction(Long transactionId, Werehouse werehouse, TransactionType transactionType, Boolean situation) {
+        this.transactionId = transactionId;
+        this.werehouse = werehouse;
+        this.transactionType = transactionType;
+        this.situation = situation;
+    }
+
+    public Transaction(Werehouse werehouse, TransactionType transactionType, Boolean situation) {
+        this.werehouse = werehouse;
+        this.transactionType = transactionType;
+        this.situation = situation;
+    }
+
+    public Transaction(Long transactionId, Werehouse werehouse, TransactionType transactionType) {
+        this.transactionId = transactionId;
+        this.werehouse = werehouse;
+        this.transactionType = transactionType;
+    }
 
     public Transaction(Long transactionId, Werehouse werehouse) {
         this.transactionId = transactionId;
         this.werehouse = werehouse;
     }
 
-    public Transaction(Werehouse werehouse) {
+    public Transaction(Werehouse werehouse, TransactionType transactionType) {
         this.werehouse = werehouse;
+        this.transactionType = transactionType;
     }
 
     public Transaction() {
@@ -42,4 +67,19 @@ public class Transaction {
         this.werehouse = werehouse;
     }
 
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public boolean isSituation() {
+        return situation;
+    }
+
+    public void setSituation(Boolean situation) {
+        this.situation = situation;
+    }
 }

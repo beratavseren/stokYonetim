@@ -18,6 +18,8 @@ public class ProductWerehouse {
     @Column(name = "quantity")
     private int quantity;
 
+    //critical stock level not weight and volume fix that
+    //user can set a critical stock level and update it for every product and every werehouse
     @Column(name = "criticalLevel")
     private int criticalWeigthLevel;
 

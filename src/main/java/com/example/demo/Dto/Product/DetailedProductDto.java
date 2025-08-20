@@ -1,7 +1,6 @@
 package com.example.demo.Dto.Product;
 
 import com.example.demo.Dto.Brand.BrandDto;
-import com.example.demo.Dto.WereHouse.WerehouseDto;
 
 import java.util.List;
 
@@ -23,23 +22,6 @@ public class DetailedProductDto {
         this.weigth = weigth;
         this.volume = volume;
         this.werehouseQuantityDtoForDetailedProductDtos = werehouseQuantityDtoForDetailedProductDtos;
-        this.brandDto = brandDto;
-    }
-
-    public DetailedProductDto(Long productId, String productName, Long barcodeNumber, String comment, int weigth, int volume, BrandDto brandDto) {
-        this.productId = productId;
-        this.productName = productName;
-        this.barcodeNumber = barcodeNumber;
-        this.comment = comment;
-        this.weigth = weigth;
-        this.volume = volume;
-        this.brandDto = brandDto;
-    }
-
-    public DetailedProductDto(Long productId, String productName, Long barcodeNumber, BrandDto brandDto) {
-        this.productId = productId;
-        this.productName = productName;
-        this.barcodeNumber = barcodeNumber;
         this.brandDto = brandDto;
     }
 
