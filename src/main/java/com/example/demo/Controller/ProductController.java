@@ -30,8 +30,8 @@ public class ProductController {
         return productService.updateProduct(updateProductDto);
     }
 
-    @DeleteMapping("/delete")
-    public boolean deleteProduct(@RequestAttribute Long productId)
+    @DeleteMapping("/delete/{productId}")
+    public boolean deleteProduct(@PathVariable Long productId)
     {
         return productService.deleteProduct(productId);
     }
@@ -48,14 +48,14 @@ public class ProductController {
         return productService.getProductListForProductPage();
     }
 
-    @GetMapping("/getProduct")
-    public DetailedProductDto getDetailedProduct(@RequestAttribute Long productId)
+    @GetMapping("/getProduct/{productId}")
+    public DetailedProductDto getDetailedProduct(@PathVariable Long productId)
     {
         return productService.getDetailedProduct(productId);
     }
 
-    @GetMapping("getProductByBarcodeNumber")
-    public DetailedProductDto getDetailedproductDtoByBarcodeNumber(@RequestAttribute Long barcodeNumber)
+    @GetMapping("/getProductByBarcodeNumber/{barcodeNumber}")
+    public DetailedProductDto getDetailedproductDtoByBarcodeNumber(@PathVariable Long barcodeNumber)
     {
         return productService.getDetailedProductByBarcodeNumber(barcodeNumber);
     }

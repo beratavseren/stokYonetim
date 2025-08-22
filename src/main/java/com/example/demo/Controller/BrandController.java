@@ -32,14 +32,14 @@ public class BrandController {
         return brandService.updateBrand(updateBrandDto);
     }
 
-    @DeleteMapping("/delete")
-    public boolean deleteBrand(@RequestAttribute Long brandId)
+    @DeleteMapping("/delete/{brandId}")
+    public boolean deleteBrand(@PathVariable Long brandId)
     {
         return brandService.deleteBrand(brandId);
     }
 
-    @GetMapping("/getBrand")
-    public BrandDto getBrand(@RequestParam Long brandId)
+    @GetMapping("/getBrand/{brandId}")
+    public BrandDto getBrand(@PathVariable Long brandId)
     {
         return brandService.getBrand(brandId);
     }

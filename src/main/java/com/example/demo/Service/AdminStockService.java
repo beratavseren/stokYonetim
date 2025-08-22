@@ -3,10 +3,16 @@ package com.example.demo.Service;
 import com.example.demo.Dto.Stock.*;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,6 +191,84 @@ public class AdminStockService {
 
             return transactionDtos;
         }catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    public byte[] receipts(Long transactionId)
+    {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            Transaction transaction = transactionRepo.findTransactionByTransactionId(transactionId);
+
+            Document document = new Document(PageSize.A4);
+            PdfWriter.getInstance(document, baos);
+
+            document.open();
+
+            // Başlık
+            document.add(new Paragraph("Stok Yönetim Sistemi - Fiş"));
+            document.add(new Paragraph("Transaction ID: " + transaction.getTransactionId()));
+            document.add(new Paragraph("Depo Adı: " + transaction.getWerehouse().getWerehouseName()));
+            document.add(new Paragraph("İslem Durumu: " + transaction.isSituation()));
+            document.add(new Paragraph("Tip: " + transaction.getTransactionType()));
+            document.add(new Paragraph(" "));
+
+            // Tablo
+            PdfPTable table = new PdfPTable(3); // Ürün, Adet
+            table.addCell("Ürün");
+            table.addCell("Adet");
+
+            List<ProductTransaction> items = productTransactionRepo.findProductTransactionsByTransaction(transaction);
+
+            for (ProductTransaction item : items) {
+                table.addCell(item.getProduct().getProductName());
+                table.addCell(String.valueOf(item.getQuantity()));
+            }
+
+            document.add(table);
+
+            document.close();
+
+            return baos.toByteArray();
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Transactional
+    public byte[] receipts()
+    {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            Document document = new Document(PageSize.A4);
+            PdfWriter.getInstance(document, baos);
+
+            document.open();
+
+            // Başlık
+            document.add(new Paragraph("Stok Yönetim Sistemi - Fiş"));
+            document.add(new Paragraph("Transaction ID: "));
+            document.add(new Paragraph("Depo Adı: "));
+            document.add(new Paragraph("İslem Durumu: "));
+            document.add(new Paragraph("Tip: "));
+            document.add(new Paragraph(" "));
+
+            // Tablo
+            PdfPTable table = new PdfPTable(3); // Ürün, Adet, Fiyat
+            table.addCell("Ürün");
+            table.addCell("Adet");
+
+            document.add(table);
+
+            document.close();
+
+            return baos.toByteArray();
+        } catch (Exception e)
         {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

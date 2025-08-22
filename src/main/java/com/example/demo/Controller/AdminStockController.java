@@ -7,6 +7,7 @@ import com.example.demo.Dto.Stock.TransactionDto;
 import com.example.demo.Entity.TransactionType;
 import com.example.demo.Service.AdminStockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,5 +55,17 @@ public class AdminStockController {
                                                           @RequestParam(required = false) Boolean transactionStuation)
     {
         return adminStockService.getTransactionsWithFilter(transactionType, werehouseId, transactionStuation);
+    }
+
+    @GetMapping(value = "/getReceipt/{transactionId}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public byte[] getReceipt(@PathVariable Long transactionId)
+    {
+        return adminStockService.receipts(transactionId);
+    }
+
+    @GetMapping(value = "/getReceipt", produces = MediaType.APPLICATION_PDF_VALUE)
+    public byte[] getReceipt()
+    {
+        return adminStockService.receipts();
     }
 }

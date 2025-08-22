@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
+
     CategoryService categoryService;
 
     @Autowired
@@ -32,14 +33,14 @@ public class CategoryController {
         return categoryService.updateCategory(updateCategoryDto);
     }
 
-    @DeleteMapping("/delete")
-    public boolean deleteCategory(@RequestAttribute Long categoryId)
+    @DeleteMapping("/delete/{categoryId}")
+    public boolean deleteCategory(@PathVariable Long categoryId)
     {
         return categoryService.deleteCategory(categoryId);
     }
 
-    @GetMapping("/getCategory")
-    public CategoryDto getCategory(@RequestAttribute Long categoryId)
+    @GetMapping("/getCategory/{categoryId}")
+    public CategoryDto getCategory(@PathVariable Long categoryId)
     {
         return categoryService.getCategory(categoryId);
     }

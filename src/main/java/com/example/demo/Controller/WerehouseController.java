@@ -33,14 +33,14 @@ public class WerehouseController {
         return werehouseService.updateWerehouse(updateWerehouseDto);
     }
 
-    @DeleteMapping("/delete")
-    public boolean deleteWerehouse(@RequestAttribute Long werehouseId)
+    @DeleteMapping("/delete/{werehouseId}")
+    public boolean deleteWerehouse(@PathVariable Long werehouseId)
     {
         return werehouseService.deleteWerehouse(werehouseId);
     }
 
-    @GetMapping("/getWerehouse")
-    public DetailedWerehouseDto getWerehouse(@RequestAttribute Long werehouseId)
+    @GetMapping("/getWerehouse/{werehouseId}")
+    public DetailedWerehouseDto getWerehouse(@PathVariable Long werehouseId)
     {
         return werehouseService.getWerehouse(werehouseId);
     }
